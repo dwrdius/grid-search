@@ -32,21 +32,22 @@ function dumbSearch(coord, dist){
 }
 
 function test(coord, coordList){
+    const SIZE = 50;
     let map = [];
-    for(let i = 0; i<10; i++){
+    for(let i = 0; i<SIZE; i++){
         map[i] = [];
-        for(let j = 0; j<10; j++){
+        for(let j = 0; j<SIZE; j++){
             map[i][j] = 'o';
         }
     }
     map[coord.x][coord.y] = '@';
     for(let e of coordList){
-        if(e.x >=0 && e.x < 10 && e.y >=0 && e.y < 10)
+        if(e.x >=0 && e.x < SIZE && e.y >=0 && e.y < SIZE)
             map[e.x][e.y] = '$';
     }
     let output = '';
-    for(let i = 0; i<10; i++){
-        for(let j = 0; j<10; j++){
+    for(let i = 0; i<SIZE; i++){
+        for(let j = 0; j<SIZE; j++){
             output += map[i][j];
         }
         output += '\n';
