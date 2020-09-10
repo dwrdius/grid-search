@@ -1,3 +1,4 @@
+"use strict";
 class Coord{
     constructor(x,y){
         this.x=x;
@@ -12,8 +13,46 @@ class Coord{
         return Math.abs(dx) + Math.abs(dy);
     }
 }
+// diamond shaped search
 function searchByDistance(coord, dist){
-    return [];
+    //identify furthest points
+    let top = new Coord(coord.x,coord.y+dist);
+    let left = new Coord(coord.x-dist,coord.y);
+    let bottom = new Coord(coord.x,coord.y-dist);
+    let right = new Coord(coord.x+dist,coord.y);
+    //create a marker that logs the current position and starts at the top
+    let current = new Coord(coord.x,coord.y+dist);
+    let returnList = [];
+    //marker goes around in a diamond shape logging all items with the specified manhattan distance
+    while((current.x!==left.x)&&(current.y!==left.y)){
+        if((current.x>=0)&&(current.y>=0)){
+            returnList.push(new Coord(current.x,current.y));
+        }
+        current.x--;
+        current.y--;
+    }
+    while((current.x!==bottom.x)&&(current.y!==bottom.y)){
+        if((current.x>=0)&&(current.y>=0)){
+            returnList.push(new Coord(current.x,current.y));
+        }
+        current.x++;
+        current.y--;
+    }
+    while((current.x!==right.x)&&(current.y!==right.y)){
+        if((current.x>=0)&&(current.y>=0)){
+            returnList.push(new Coord(current.x,current.y));
+        }
+        current.x++;
+        current.y++;
+    }
+    while((current.x!==top.x)&&(current.y!==top.y)){
+        if((current.x>=0)&&(current.y>=0)){
+            returnList.push(new Coord(current.x,current.y));
+        }
+        current.x--;
+        current.y++;
+    }
+    return returnList;
 }
 function dumbSearch(coord, dist){
     let minX = coord.x-dist;
@@ -32,7 +71,7 @@ function dumbSearch(coord, dist){
 }
 
 function test(coord, coordList){
-    const SIZE = 50;
+    const SIZE = 20;
     let map = [];
     for(let i = 0; i<SIZE; i++){
         map[i] = [];
@@ -72,5 +111,9 @@ function time(search1, search2){
 }
 
 let startCoord = new Coord(2,4);
+//test the deletion method
 test(startCoord, dumbSearch(startCoord, 5));
+//test the diamond method
+test(startCoord, searchByDistance(startCoord, 5));
+//find the fastest time
 time(dumbSearch, searchByDistance);
